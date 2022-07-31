@@ -63,7 +63,7 @@ private:
 
 LaserscanMerger::LaserscanMerger() : Node("laserscan_multi_merger")
 {
-	this->declare_parameter<std::string>("destination_frame", "cart_frame");
+	this->declare_parameter<std::string>("destination_frame", "base_link");
 	this->declare_parameter<std::string>("cloud_destination_topic", "/merged_cloud");
 	this->declare_parameter<std::string>("scan_destination_topic", "/scan_multi");
 	this->declare_parameter<std::string>("laserscan_topics", "");

@@ -77,7 +77,7 @@ install(TARGETS laserscan_multi_merger laserscan_virtualizer
 )
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
-install(DIRECTORY launch/
+install(DIRECTORY launch/ config/
   DESTINATION share/${PROJECT_NAME}/launch
 )
 
