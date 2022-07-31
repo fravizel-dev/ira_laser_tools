@@ -1,3 +1,5 @@
+Updated with changes to ROS2 humble from https://github.com/nakai-omer/ira_laser_tools/tree/humble
+
 This library includes some tools for laser handling in ROS. At the moment two nodes are available:
 
  - laserscan_multi_merger
@@ -26,5 +28,3 @@ The documentation is at the moment very brief, for any question please contact u
 furlan@disco.unimib.it or augusto.ballardini@unimib.it
 
 Paper link: https://arxiv.org/abs/1411.1086
-
-Both nodes compile under catkin in hydro/indigo and use PCL1.7
