@@ -3,11 +3,11 @@ laserscan_multi_merger:
     destination_frame: "base_link"
     cloud_destination_topic: "/merged_cloud"
     scan_destination_topic: "/scan_multi"
-    laserscan_topics: "/scansx /scandx"
-    angle_min: 0.0
-    angle_max: 270.0
-    angle_increment: 0.00437
+    laserscan_topics: "/laser_1_scan/out /laser_2_scan/out"
+    angle_min: -114.7
+    angle_max: 126.11
+    angle_increment: 0.011699164286255836
     scan_time: 0.0
-    range_min: 0.1
-    range_max: 2.0
+    range_min: 0.120000
+    range_max: 20.0
 

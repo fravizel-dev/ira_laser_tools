@@ -20,8 +20,6 @@
 using namespace std;
 using namespace pcl;
 
-using std::placeholders::_1;
-
 class LaserscanMerger : public rclcpp::Node
 {
 public:
@@ -66,13 +64,13 @@ LaserscanMerger::LaserscanMerger() : Node("laserscan_multi_merger")
 	this->declare_parameter<std::string>("destination_frame", "base_link");
 	this->declare_parameter<std::string>("cloud_destination_topic", "/merged_cloud");
 	this->declare_parameter<std::string>("scan_destination_topic", "/scan_multi");
-	this->declare_parameter<std::string>("laserscan_topics", "");
-	this->declare_parameter("angle_min", -3.14);
-	this->declare_parameter("angle_max", 3.14);
-	this->declare_parameter("angle_increment", 0.0058);
+	this->declare_parameter<std::string>("laserscan_topics", "/laser_1_scan/out /laser_2_scan/out");
+	this->declare_parameter("angle_min", -2.0);
+	this->declare_parameter("angle_max", 2.2);
+	this->declare_parameter("angle_increment", 0.011699164286255836);
 	this->declare_parameter("scan_time", 0.0);
-	this->declare_parameter("range_min", 0.0);
-	this->declare_parameter("range_max", 25.0);
+	this->declare_parameter("range_min", 0.12);
+	this->declare_parameter("range_max", 20.0);
 
 	this->get_parameter("destination_frame", destination_frame);
 	this->get_parameter("cloud_destination_topic", cloud_destination_topic);
@@ -86,7 +84,7 @@ LaserscanMerger::LaserscanMerger() : Node("laserscan_multi_merger")
 	this->get_parameter("range_max", range_max);
 
 	param_callback_handle_ = this->add_on_set_parameters_callback(
-			std::bind(&LaserscanMerger::reconfigureCallback, this, _1));
+			std::bind(&LaserscanMerger::reconfigureCallback, this, std::placeholders::_1));
 
 	tf_buffer_ = std::make_unique<tf2_ros::Buffer>(this->get_clock());
 	tfListener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
@@ -159,12 +157,15 @@ void LaserscanMerger::laserscan_topic_parser()
 	while (!tokens.empty())
 	{
 		RCLCPP_INFO(this->get_logger(), "Waiting for topics ...");
+		
 		sleep(1);
 
 		topics = this->get_topic_names_and_types();
 
 		for (const auto &topic_it : topics)
 		{
+			//RCLCPP_INFO(this->get_logger(), &topic_it);
+
 			std::vector<std::string> topic_types = topic_it.second;
 
 			if (std::find(topic_types.begin(), topic_types.end(), "sensor_msgs/msg/LaserScan") != topic_types.end() && tokens.erase(topic_it.first) > 0)

@@ -18,7 +18,7 @@ def generate_launch_description():
             "params_file",
             default_value=os.path.join(
                 get_package_share_directory("ira_laser_tools"),
-                "config",
+                "launch",
                 "laserscan_merge.yaml",
             ),
             description="Path to param config in yaml format",
@@ -34,6 +34,16 @@ def generate_launch_description():
         # respawn=True,
         # respawn_delay=2,
     )
+
+    # laser_virtualizer = Node(
+    #     package="ira_laser_tools",
+    #     executable="laserscan_virtualizer",
+    #     name="laserscan_virtualizer",
+    #     #parameters=[params_file],
+    #     output="both",
+    #     # respawn=True,
+    #     # respawn_delay=2,
+    # )
 
     nodes = [laser_merge]
 

@@ -4,7 +4,7 @@
 #include <geometry_msgs/msg/transform_stamped.hpp>
 #include <tf2_ros/transform_listener.h>
 #include <tf2_ros/buffer.h>
-#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 #include <laser_geometry/laser_geometry.hpp>
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
@@ -19,8 +19,6 @@ typedef pcl::PointCloud<pcl::PointXYZ> myPointCloud;
 
 using namespace std;
 using namespace pcl;
-
-using std::placeholders::_1;
 
 class LaserscanVirtualizer : public rclcpp::Node
 {
@@ -172,13 +170,13 @@ LaserscanVirtualizer::LaserscanVirtualizer() : Node("laserscan_virtualizer")
 	this->declare_parameter<std::string>("base_frame", "base_link");
 	this->declare_parameter<std::string>("cloud_topic", "/cloud_pcd");
 	this->declare_parameter<std::string>("output_laser_topic", "/scan");
-	this->declare_parameter<std::string>("virtual_laser_scan", "scansx scandx");
-	this->declare_parameter("angle_min", -3.14);
-	this->declare_parameter("angle_max", 3.14);
-	this->declare_parameter("angle_increment", 0.0058);
+	this->declare_parameter<std::string>("virtual_laser_scan", "link_laser_1_sensor link_laser_2_sensor");
+	this->declare_parameter("angle_min", -2.0);
+	this->declare_parameter("angle_max", 2.2);
+	this->declare_parameter("angle_increment", 0.011699164286255836);
 	this->declare_parameter("scan_time", 0.0);
-	this->declare_parameter("range_min", 0.0);
-	this->declare_parameter("range_max", 25.0);
+	this->declare_parameter("range_min", 0.12);
+	this->declare_parameter("range_max", 20.0);
 
 	this->get_parameter("base_frame", base_frame);
 	this->get_parameter("cloud_topic", cloud_topic);
@@ -192,7 +190,7 @@ LaserscanVirtualizer::LaserscanVirtualizer() : Node("laserscan_virtualizer")
 	this->get_parameter("range_max", range_max);
 
 	param_callback_handle_ = this->add_on_set_parameters_callback(
-			std::bind(&LaserscanVirtualizer::reconfigureCallback, this, _1));
+			std::bind(&LaserscanVirtualizer::reconfigureCallback, this, std::placeholders::_1));
 
 	tf_buffer_ = std::make_unique<tf2_ros::Buffer>(this->get_clock());
 	tfListener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
@@ -200,7 +198,7 @@ LaserscanVirtualizer::LaserscanVirtualizer() : Node("laserscan_virtualizer")
 	this->virtual_laser_scan_parser();
 
 	point_cloud_subscription_ =
-			this->create_subscription<sensor_msgs::msg::PointCloud2>(cloud_topic.c_str(), rclcpp::SensorDataQoS(), std::bind(&LaserscanVirtualizer::pointCloudCallback, this, _1));
+			this->create_subscription<sensor_msgs::msg::PointCloud2>(cloud_topic.c_str(), rclcpp::SensorDataQoS(), std::bind(&LaserscanVirtualizer::pointCloudCallback, this, std::placeholders::_1));
 	cloud_frame = "";
 }
 
