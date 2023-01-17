@@ -19,7 +19,7 @@ def generate_launch_description():
             default_value=os.path.join(
                 get_package_share_directory("ira_laser_tools"),
                 "launch",
-                "laserscan_merge.yaml",
+                "laserscan_merge_real.yaml",
             ),
             description="Path to param config in yaml format",
         ),

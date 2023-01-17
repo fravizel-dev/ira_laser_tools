@@ -64,7 +64,7 @@ LaserscanMerger::LaserscanMerger() : Node("laserscan_multi_merger")
 	this->declare_parameter<std::string>("destination_frame", "base_link");
 	this->declare_parameter<std::string>("cloud_destination_topic", "/merged_cloud");
 	this->declare_parameter<std::string>("scan_destination_topic", "/scan_multi");
-	this->declare_parameter<std::string>("laserscan_topics", "/laser_1_scan/out /laser_2_scan/out");
+	this->declare_parameter<std::string>("laserscan_topics", "/laser_1_scan /laser_2_scan"); ///laser_1_scan/out /laser_2_scan/out
 	this->declare_parameter("angle_min", -2.0);
 	this->declare_parameter("angle_max", 2.2);
 	this->declare_parameter("angle_increment", 0.011699164286255836);
@@ -156,7 +156,7 @@ void LaserscanMerger::laserscan_topic_parser()
 
 	while (!tokens.empty())
 	{
-		RCLCPP_INFO(this->get_logger(), "Waiting for topics ...");
+		RCLCPP_INFO(this->get_logger(), "Waiting for topics ...  " + laserscan_topics);
 		
 		sleep(1);
 
