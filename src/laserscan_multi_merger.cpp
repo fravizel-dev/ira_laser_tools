@@ -289,7 +289,7 @@ void LaserscanMerger::pointcloud_to_laserscan(Eigen::MatrixXf points, pcl::PCLPo
 	output.range_min = this->range_min;
 	output.range_max = this->range_max;
 
-	uint32_t ranges_size = std::ceil((output.angle_max - output.angle_min) / output.angle_increment);
+	uint32_t ranges_size = std::ceil((output.angle_max - output.angle_min) / output.angle_increment) + 1; //HARDCODED +1
 	output.ranges.assign(ranges_size, std::numeric_limits<double>::infinity());
 
 	for (int i = 0; i < points.cols(); i++)
@@ -325,6 +325,8 @@ void LaserscanMerger::pointcloud_to_laserscan(Eigen::MatrixXf points, pcl::PCLPo
 			output.ranges[index] = sqrt(range_sq);
 		}
 	}
+
+	//RCLCPP_INFO(this->get_logger(), "Ranges Lengeth -> (%d)\n", ranges_size);	
 
 	laser_scan_publisher_->publish(output);
 }

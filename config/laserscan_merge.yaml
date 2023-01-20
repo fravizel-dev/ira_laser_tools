@@ -1,6 +1,6 @@
 laserscan_multi_merger:
   ros__parameters:
-    destination_frame: "base_link"
+    destination_frame: "base_laser_link"
     cloud_destination_topic: "/merged_cloud"
     scan_destination_topic: "/scan_multi"
     laserscan_topics: "/laser_1_scan/out /laser_2_scan/out"

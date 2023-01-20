@@ -19,7 +19,7 @@ def generate_launch_description():
             default_value=os.path.join(
                 get_package_share_directory("ira_laser_tools"),
                 "launch",
-                "laserscan_merge_real.yaml",
+                "laserscan_merge.yaml", #_real
             ),
             description="Path to param config in yaml format",
         ),
@@ -35,6 +35,14 @@ def generate_launch_description():
         # respawn_delay=2,
     )
 
+    #Set transform
+    tf = Node(
+        package="tf2_ros",
+        executable="static_transform_publisher",
+        output="screen",
+        arguments=["0", "0", "0", "0", "0", "0","base_link","base_laser_link"]
+    )
+
     # laser_virtualizer = Node(
     #     package="ira_laser_tools",
     #     executable="laserscan_virtualizer",
@@ -45,7 +53,7 @@ def generate_launch_description():
     #     # respawn_delay=2,
     # )
 
-    nodes = [laser_merge]
+    nodes = [laser_merge, tf]
 
     return LaunchDescription(
         declared_parameters + declared_arguments + declared_env_vars + nodes
